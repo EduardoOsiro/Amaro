@@ -1,12 +1,14 @@
 import { CustomError } from "../CustomError.ts/CustomError";
-import { RegisterProductDB, RegisterProductDTO } from "../Model/types";
+import { ProductDatabase } from "../Data/ProductDatabase";
+import { GetProductDTO, RegisterProductDB, RegisterProductDTO } from "../Model/types";
 import { IdGenerator } from "../Services/IdGenerator";
 
 
 export class ProductBusiness {
 
      constructor (
-          private idGenerator: IdGenerator
+          private idGenerator: IdGenerator,
+          private productDatabase: ProductDatabase
      ) {}
 
      public async registerProduct (input: RegisterProductDTO) {
@@ -33,4 +35,27 @@ export class ProductBusiness {
                throw new CustomError(error.statusCode, error.message)
           }
      }
+
+     public async getProduct (input: GetProductDTO) {
+          try {
+
+               const {id, name, tags} = input
+
+               if(input.id) {
+                    return this.productDatabase.getProductById(input.id)
+               } else if (input.name) {
+                    return this.productDatabase.getProductByName(input.name)
+               } else {
+                    return this.productDatabase.getProductByTag(input.tags)
+               }
+               
+          } catch (error:any) {
+               throw new CustomError(error.statusCode, error.message)
+          }
+     }
 }
+
+export default new ProductBusiness(
+     new IdGenerator(),
+     new ProductDatabase()
+)

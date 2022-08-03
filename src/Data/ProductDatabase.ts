@@ -50,7 +50,7 @@ export class ProductDatabase extends BaseDatabase {
 
                const response = await BaseDatabase.connection
                .select('*')
-               .where('tag', '=', `${tag}`)
+               .where('tag', '=', `${tag}`) 
                
                return response
           } catch (error:any) {
