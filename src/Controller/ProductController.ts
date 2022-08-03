@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { ProductBusiness } from "../Business/ProductBusiness";
 import { RegisterProductDTO } from "../Model/types";
 
 
