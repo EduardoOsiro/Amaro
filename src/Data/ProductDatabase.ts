@@ -18,44 +18,47 @@ export class ProductDatabase extends BaseDatabase {
           }
      }
 
-     public async getProductById (id: string) {
+     public async getProduct (search: string) {
           try {
-
-               const response = await BaseDatabase.connection
+               const  response = await BaseDatabase.connection("amaro_products")
                .select('*')
-               .where({id})
-               .from(ProductDatabase.TABLE_NAME)
-               
+               .where('id', 'like', `${search}`)
+               .or
+               .where('name', 'like', `${search}`)
+               .or
+               .where('tags', 'like', `${search}`)
+           
                return response
+   
           } catch (error:any) {
                throw new CustomError(400, error.sqlMessage)
           }
      }
 
-     public async getProductByName (name: string) {
-          try {
+     // public async getProductByName (name: string) {
+     //      try {
 
-               const response = await BaseDatabase.connection
-               .select('*')
-               .where('name', '=', `${name}`)
+     //           const response = await BaseDatabase.connection
+     //           .select('*')
+     //           .where('name', '=', `${name}`)
                
-               return response
-          } catch (error:any) {
-               throw new CustomError(400, error.sqlMessage)
-          }
-     }
+     //           return response
+     //      } catch (error:any) {
+     //           throw new CustomError(400, error.sqlMessage)
+     //      }
+     // }
 
-     public async getProductByTag (tag: string) {
-          try {
+     // public async getProductByTag (tag: string) {
+     //      try {
 
-               const response = await BaseDatabase.connection
-               .select('*')
-               .where('tag', '=', `${tag}`) 
+     //           const response = await BaseDatabase.connection
+     //           .select('*')
+     //           .where('tag', '=', `${tag}`) 
                
-               return response
-          } catch (error:any) {
-               throw new CustomError(400, error.sqlMessage)
-          }
-     }
+     //           return response
+     //      } catch (error:any) {
+     //           throw new CustomError(400, error.sqlMessage)
+     //      }
+     // }
 
 }

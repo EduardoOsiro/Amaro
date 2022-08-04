@@ -23,16 +23,12 @@ export class ProductController {
           }
      }
 
-     public async getProductById (req: Request, res: Response) {
-
-          const id = req.params.id
-          const name = req.query.name as string
-          const tags = req.body.tags
+     public async getProduct (req: Request, res: Response) {
 
           try {
-               const input: GetProductDTO = {id, name, tags}
+               const search = req.params as any
 
-               const response = await ProductBusiness.getProduct(input)
+               const response = await ProductBusiness.getProduct(search)
 
                res.status(200).send(response)
           } catch (error:any) {

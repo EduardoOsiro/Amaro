@@ -36,18 +36,12 @@ export class ProductBusiness {
           }
      }
 
-     public async getProduct (input: GetProductDTO) {
+     public async getProduct (search: string) {
           try {
 
-               const {id, name, tags} = input
+               const response = await this.productDatabase.getProduct(search)
 
-               if(input.id) {
-                    return this.productDatabase.getProductById(input.id)
-               } else if (input.name) {
-                    return this.productDatabase.getProductByName(input.name)
-               } else {
-                    return this.productDatabase.getProductByTag(input.tags)
-               }
+               return response
                
           } catch (error:any) {
                throw new CustomError(error.statusCode, error.message)
