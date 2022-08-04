@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ProductBusiness } from "../Business/ProductBusiness";
-import { RegisterProductDTO } from "../Model/types";
+import  ProductBusiness  from "../Business/ProductBusiness";
+import { GetProductDTO, RegisterProductDTO } from "../Model/types";
 
 
 export class ProductController {
@@ -15,7 +15,22 @@ export class ProductController {
                     tags
                }
 
-               await ProductBusiness.registerProduct(input)
+               const result = await ProductBusiness.registerProduct(input)
+
+               res.status(201).send(result)
+          } catch (error:any) {
+               res.status(400).send(error.message)
+          }
+     }
+
+     public async getProduct (req: Request, res: Response) {
+
+          try {
+               const search = req.params as any
+
+               const response = await ProductBusiness.getProduct(search)
+
+               res.status(200).send(response)
           } catch (error:any) {
                res.status(400).send(error.message)
           }
